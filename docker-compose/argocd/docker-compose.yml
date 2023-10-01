@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  argocd-server:
+    image: argoproj/argocd:latest
+    ports:
+      - "8080:8080"
+    command: ["argocd-server", "--insecure"]
+
+  argocd-repo-server:
+    image: argoproj/argocd:v2.0.5
+    command: ["argocd-repo-server", "--insecure"]
+
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: argocd
+      POSTGRES_USER: argocd
+      POSTGRES_PASSWORD: password
+    volumes:
+      - /path/to/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+networks:
+  default:
+    driver: bridge
+# docker-compose up
+# docker-compose down
